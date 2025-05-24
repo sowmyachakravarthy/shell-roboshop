@@ -42,9 +42,15 @@ VALIDATE $? "Enabling current nodejs"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "Installing nodejs"
 
-#Creating system User
+#Creating system User - idempotent concept
+id roboshop
+if [ $? -ne 0 ]
+then
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
 VALIDATE $? "Creating Roboshop User" 
+else
+    echo "System user roboshop already created so.... $Y SKIPPING $N"
+fi
 
 mkdir /app 
 VALIDATE $? "Creating app directory"
@@ -72,4 +78,5 @@ dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Installing mongoDB client"
 
 mongosh --host mongodb.robolearning.site </app/db/master-data.js &>>$LOG_FILE
+VALIDATE $? "Loading data into MongoDB"
 
