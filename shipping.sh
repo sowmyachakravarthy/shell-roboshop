@@ -33,9 +33,9 @@ VALIDATE(){
         exit 1
     fi
 }
-
+echo "Installing Maven"
 dnf install maven -y &>>$LOG_FILE
-VALIDATE $? "Installing Maven"
+VALIDATE $? "Maven installation completed"
 
 #Creating system User - idempotent concept
 id roboshop
