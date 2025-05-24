@@ -56,20 +56,20 @@ fi
 mkdir -p /app #-p is used because if directory is not created it creates one otherwise skip it. 
 VALIDATE $? "Creating app directory"
 
-curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>>$LOG_FILE
+curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>>$LOG_FILE
 VALIDATE $? "Downloading catalogue"
 
 rm -rf /app/*
 cd /app 
-unzip /tmp/user.zip &>>$LOG_FILE
+unzip /tmp/cart.zip &>>$LOG_FILE
 VALIDATE $? "Unzipping catalogue"
 
 npm install &>>$LOG_FILE
 VALIDATE $? "Installing Dependencies"
 
 
-cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service &>>$LOG_FILE
-VALIDATE $? "COpying user service"
+cp $SCRIPT_DIR/cart.service /etc/systemd/system/cart.service &>>$LOG_FILE
+VALIDATE $? "COpying cart service"
 
 systemctl daemon-reload
 systemctl enable user 
