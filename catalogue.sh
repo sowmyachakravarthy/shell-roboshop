@@ -49,7 +49,7 @@ then
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
 VALIDATE $? "Creating Roboshop User" 
 else
-    echo "System user roboshop already created so.... $Y SKIPPING $N"
+    echo -e "System user roboshop already created so ... $Y SKIPPING $N"
 fi
 
 mkdir -p /app #-p is used because if directory is not created it creates one otherwise skip it. 
@@ -58,6 +58,7 @@ VALIDATE $? "Creating app directory"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
 VALIDATE $? "Downloading catalogue"
 
+rm -rf /app/*
 cd /app 
 unzip /tmp/catalogue.zip &>>$LOG_FILE
 VALIDATE $? "Unzipping catalogue"
