@@ -52,7 +52,7 @@ else
     echo "System user roboshop already created so.... $Y SKIPPING $N"
 fi
 
-mkdir /app 
+mkdir -p /app #-p is used because if directory is not created it creates one otherwise skip it. 
 VALIDATE $? "Creating app directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
