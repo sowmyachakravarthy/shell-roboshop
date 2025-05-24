@@ -78,6 +78,11 @@ cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Installing mongoDB client"
 
-mongosh --host mongodb.robolearning.site </app/db/master-data.js &>>$LOG_FILE
-VALIDATE $? "Loading data into MongoDB"
-
+STATUS=$(mongosh --host mongodb.daws84s.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+if [ $STATUS -lt 0 ] #if the result is 0 or above 0 then data is already loaded, if it is negative then no data is present
+then
+    mongosh --host mongodb.robolearning.site </app/db/master-data.js &>>$LOG_FILE
+    VALIDATE $? "Loading data into MongoDB"
+else
+    echo -e "Data is already loaded ... $Y SKIPPING $N"
+fi
