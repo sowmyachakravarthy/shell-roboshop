@@ -19,9 +19,7 @@ do
     else
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
         RECORD_NAME="$instance.$DOMAIN_NAME"
-        echo "$instance IP address: $IP"
-    fi 
-
+    fi
     echo "$instance IP address: $IP"
 
     aws route53 change-resource-record-sets \
