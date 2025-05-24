@@ -72,8 +72,8 @@ cp $SCRIPT_DIR/cart.service /etc/systemd/system/cart.service &>>$LOG_FILE
 VALIDATE $? "COpying cart service"
 
 systemctl daemon-reload
-systemctl enable user 
-systemctl start user
+systemctl enable cart 
+systemctl start cart
 VALIDATE $? "Reloading, enabling and restarting the services"   
 
 END_TIME=$(date +%s) 
