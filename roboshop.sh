@@ -6,7 +6,8 @@ INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "user" "shipping" "cart" "paymen
 ZONE_ID="Z00892532APZT7EC7Z6FX"
 DOMAIN_NAME="robolearning.site"
 
-for instance in ${INSTANCES[@]}
+#for instance in ${INSTANCES[@]}
+for instance in $@ 
 do
     INSTANCE_ID=$(aws ec2 run-instances --image-id ami-09c813fb71547fc4f --instance-type t2.micro --security-group-ids sg-00205277be43d1520 --tag-specifications "ResourceType=instance,Tags=[{Key=Name, Value=$instance}]" --query "Instances[0].InstanceId" --output text)
 
@@ -16,7 +17,7 @@ do
         RECORD_NAME="$instance.$DOMAIN_NAME"
     else
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
-        RECORD_NAME="$instance.$DOMAIN_NAME"
+        RECORD_NAME="$DOMAIN_NAME"
     fi
     echo "$instance IP address: $IP"
 
