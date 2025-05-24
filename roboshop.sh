@@ -2,15 +2,13 @@
 
 AMI_ID="ami-09c813fb71547fc4f"
 SG_ID="sg-00205277be43d1520"
-INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "user" "shipping" "cart" "payment" "catalogue" 
-"dispatch" "frontend")
+INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "user" "shipping" "cart" "payment" "catalogue" "dispatch" "frontend")
 ZONE_ID="Z00892532APZT7EC7Z6FX"
 DOMAIN_NAME="robolearning.site"
 
 for instance in ${INSTANCES[@]}
 do
-    INSTANCE_ID=$(aws ec2 run-instances --image-id ami-09c813fb71547fc4f --instance-type t2.micro --security-group-ids sg-01bc7ebe005fb1cb2 --tag-specifications "ResourceType=instance,Tags=[{Key=Name, Value=$instance}]" 
-    --query "Instances[0].InstanceId" --output text)
+    INSTANCE_ID=$(aws ec2 run-instances --image-id ami-09c813fb71547fc4f --instance-type t2.micro --security-group-ids sg-01bc7ebe005fb1cb2 --tag-specifications "ResourceType=instance,Tags=[{Key=Name, Value=$instance}]" --query "Instances[0].InstanceId" --output text)
 
     if [ $instance != "frontend" ]
     then
