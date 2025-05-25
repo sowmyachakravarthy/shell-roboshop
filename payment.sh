@@ -35,7 +35,7 @@ VALIDATE(){
 }
 
 dnf install python3 gcc python3-devel -y &>>$LOG_FILE
-VALIDATE $? "Installing python"
+VALIDATE $? "Installing python3 packages"
 
 #Creating system User - idempotent concept
 id roboshop
@@ -50,8 +50,8 @@ fi
 mkdir -p /app #-p is used because if directory is not created it creates one otherwise skip it. 
 VALIDATE $? "Creating app directory"
 
-curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>>$LOG_FILE 
-VALIDATE $? "Downloading shipping"
+curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>>$LOG_FILE 
+VALIDATE $? "Downloading payment"
 
 rm -rf /app/*
 cd /app 
