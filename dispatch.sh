@@ -34,7 +34,7 @@ VALIDATE(){
     fi
 }
 
-dnf install golang -y
+dnf install golang -y &>>$LOG_FILE
 VALIDATE $? "Installing golang"
 
 #Creating system User - idempotent concept
@@ -59,19 +59,19 @@ cd /app
 unzip /tmp/dispatch.zip &>>$LOG_FILE
 VALIDATE $? "Unzipping dispatch"
 
-go mod init dispatch
-go get 
-go build
+go mod init dispatch &>>$LOG_FILE
+go get &>>$LOG_FILE
+go build &>>$LOG_FILE
 VALIDATE $? "Installing dependencies"
 
-cp $SCRIPT_DIR/dispatch.service /etc/systemd/system/dispatch.service
+cp $SCRIPT_DIR/dispatch.service /etc/systemd/system/dispatch.service &>>$LOG_FILE
 VALIDATE $? "Copying dispatch service file"
 
-systemctl daemon-reload
+systemctl daemon-reload &>>$LOG_FILE
 VALIDATE $? "Reloading dispatch"
 
-systemctl enable dispatch 
-systemctl start dispatch
+systemctl enable dispatch &>>$LOG_FILE
+systemctl start dispatch &>>$LOG_FILE
 VALIDATE $? "Enabling and starting dispatch"
 
 END_TIME=$(date +%s)
