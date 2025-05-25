@@ -34,7 +34,8 @@ VALIDATE(){
     fi
 }
 
-dnf install python3 gcc python3-devel -y
+dnf install python3 gcc python3-devel -y &>>$LOG_FILE
+VALIDATE $? "Installing python"
 
 #Creating system User - idempotent concept
 id roboshop
@@ -49,7 +50,7 @@ fi
 mkdir -p /app #-p is used because if directory is not created it creates one otherwise skip it. 
 VALIDATE $? "Creating app directory"
 
-curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>>$LOG_FILE
+curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>>$LOG_FILE 
 VALIDATE $? "Downloading shipping"
 
 rm -rf /app/*
@@ -57,17 +58,17 @@ cd /app
 unzip /tmp/payment.zip &>>$LOG_FILE
 VALIDATE $? "Unzipping payment"
 
-pip3 install -r requirements.txt
+pip3 install -r requirements.txt &>>$LOG_FILE 
 VALIDATE $? "Installing dependencies"
 
-cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service
+cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service &>>$LOG_FILE 
 VALIDATE $? "copying payment service file"
 
-systemctl daemon-reload
+systemctl daemon-reload &>>$LOG_FILE 
 VALIDATE $? "reloading payment"
 
-systemctl enable payment 
-systemctl start payment
+systemctl enable payment &>>$LOG_FILE 
+systemctl start payment &>>$LOG_FILE 
 VALIDATE $? "Enabling and starting payment"
 
 END_TIME=$(date +%s)
