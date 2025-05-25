@@ -72,6 +72,8 @@ cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service &>>$LOG_FILE
 VALIDATE $? "COpying user service"
 
 systemctl daemon-reload
+VALIDATE $? "Daemon reload"
+
 systemctl enable user 
 systemctl start user
 VALIDATE $? "Reloading, enabling and restarting the services"   

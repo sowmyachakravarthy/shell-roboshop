@@ -38,11 +38,11 @@ dnf install python3 gcc python3-devel -y &>>$LOG_FILE
 VALIDATE $? "Installing python3 packages"
 
 #Creating system User - idempotent concept
-id roboshop
+id roboshop &>>$LOG_FILE
 if [ $? -ne 0 ]
 then
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
-VALIDATE $? "Creating Roboshop User" 
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
+    VALIDATE $? "Creating Roboshop system User" 
 else
     echo -e "System user roboshop already created so ... $Y SKIPPING $N"
 fi
@@ -65,11 +65,13 @@ cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service &>>$LOG_FILE
 VALIDATE $? "copying payment service file"
 
 systemctl daemon-reload &>>$LOG_FILE 
-VALIDATE $? "reloading payment"
+VALIDATE $? "Daemon reload"
 
 systemctl enable payment &>>$LOG_FILE 
+VALIDATE $? "Enabling payment"
+
 systemctl start payment &>>$LOG_FILE 
-VALIDATE $? "Enabling and starting payment"
+VALIDATE $? "starting payment"
 
 END_TIME=$(date +%s)
 TOTAL_TIME=$(( $END_TIME - $START_TIME ))
