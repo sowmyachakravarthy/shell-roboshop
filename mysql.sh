@@ -26,6 +26,7 @@ fi
 #instead of directly giving the password in script, we can enter here as a user
 echo "Please enter root password to setup"
 read -s MYSQL_ROOT_PASSWORD #RoboShop@1 is the pwd
+echo "Password entered successfully"
 
 # validate functions takes input as exit status, what command they tried to install
 VALIDATE(){
@@ -46,7 +47,6 @@ systemctl start mysqld  &>>$LOG_FILE
 VALIDATE $? "Enabling and starting mysql server"
 
 mysql_secure_installation --set-root-pass $MYSQL_ROOT_PASSWORD &>>$LOG_FILE
-echo "Password entered successfully"
 VALIDATE $? "Setting mysql root password"
 
 END_TIME=$(date +%s)
